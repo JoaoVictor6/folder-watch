@@ -1,1 +1,1 @@
-Aqui irei falar sobre a materia de governaça de tecnologia da informação. Não co
+Aqui irei falar sobre a materia de governaça de tecnologia da informação. Não conheco essa 
