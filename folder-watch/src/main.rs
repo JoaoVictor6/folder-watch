@@ -78,17 +78,14 @@ fn main() {
                 let path = event.paths[0].to_str().unwrap();
                 // ignore files/folder change on .git folder
                 if path.contains("/.git") {continue;}
-                match event.kind {
-                    notify::EventKind::Create(ev) => {
-                        commit_create_event(ev, path);
-                    },
-                    notify::EventKind::Modify(ev) => {
-                        commit_modify_event(ev, event)
-                    },
-                    notify::EventKind::Remove(ev) => commit_remove_event(ev, path),
-                    notify::EventKind::Other => todo!(),
-                    notify::EventKind::Any => todo!(),
-                    notify::EventKind::Access(_) => todo!(),
+                if let notify::EventKind::Create(ev) = event.kind {
+                    commit_create_event(ev, path);
+                }
+                if let notify::EventKind::Modify(ev) = event.kind {
+                    commit_modify_event(ev, event.clone())
+                }
+                if let notify::EventKind::Remove(ev) = event.kind {
+                    commit_remove_event(ev, path)
                 }
             }
             Err(_) => {} 
