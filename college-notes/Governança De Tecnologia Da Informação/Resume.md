@@ -1,1 +1,1 @@
-Aqui irei falar sobre a materia de governaç
+Aqui irei falar sobre a materia de governaça de tecnolo
