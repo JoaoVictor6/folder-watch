@@ -19,7 +19,7 @@ pub fn commit_and_push(message: &str, path: &str) {
   );
 
   execute_command(
-    Command::new("git").arg("commit").arg("-m").arg(format!("\"{}\"", message)), 
+    Command::new("git").arg("commit").arg("-m").arg(message), 
     format!("git -m \"{}\"", message).as_str()
   );
   
