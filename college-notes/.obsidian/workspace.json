@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Governança De Tecnologia Da Informação/Resume.md",
+                "file": "Redes De Computadores/Resume.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Governança De Tecnologia Da Informação/Resume.md",
+                "file": "Redes De Computadores/Resume.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Governança De Tecnologia Da Informação/Resume.md",
+                "file": "Redes De Computadores/Resume.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Governança De Tecnologia Da Informação/Resume.md"
+                "file": "Redes De Computadores/Resume.md"
               }
             }
           }
@@ -149,6 +149,7 @@
   "active": "e5473ccf65d94775",
   "lastOpenFiles": [
     "Governança De Tecnologia Da Informação/Resume.md",
+    "Redes De Computadores/Resume.md",
     "Governança De Tecnologia Da Informação",
     "Redes De Computadores",
     "Sistemas Operacionais",
