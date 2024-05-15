@@ -47,10 +47,6 @@ fn commit_create_event (event_kind: CreateKind, file_source: &str) {
         let commit_message = format!("create new file called {}", get_file_or_folder_name(file_source));
         git::commit_and_push(format!("{}{}", commit_prefix, commit_message).as_str(), file_source);
     }
-    if event_kind == CreateKind::Folder {
-        let commit_message = format!("create new folder called {}", get_file_or_folder_name(file_source));
-        git::commit_and_push(format!("{}{}", commit_prefix, commit_message).as_str(), file_source);
-    }
 }
 
 fn commit_remove_event (event_kind: RemoveKind, file_source: &str) {
