@@ -21,18 +21,18 @@ fn create_commit_date () -> String {
 
 fn commit_modify_event (event_kind: ModifyKind, event: Event) {
     let commit_prefix = create_commit_date();
-    let old_path = event.paths[0].to_str().unwrap();
-    let new_path = event.paths[1].to_str().unwrap();
-
+    let current_path = event.paths[0].to_str().unwrap();
+    
     if let ModifyKind::Data(_) = event_kind {
-        let commit_message = format!("edit {}", get_file_or_folder_name(new_path));
+        let commit_message = format!("edit {}", get_file_or_folder_name(current_path));
         git::commit_and_push(
             format!("{}{}", commit_prefix, commit_message).as_str(),
-            new_path
+            current_path
         );
     }
     if ModifyKind::Name(RenameMode::Both) == event_kind {
-        let commit_message = format!("rename {} to {}", get_file_or_folder_name(old_path), get_file_or_folder_name(new_path));
+        let new_path = event.paths[1].to_str().unwrap();
+        let commit_message = format!("rename {} to {}", get_file_or_folder_name(current_path), get_file_or_folder_name(new_path));
         git::commit_and_push(
             format!("{}{}", commit_prefix, commit_message).as_str(),
             new_path
