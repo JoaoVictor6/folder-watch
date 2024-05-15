@@ -11,8 +11,12 @@
             "id": "e5473ccf65d94775",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "Governança De Tecnologia Da Informação/Untitled.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -81,6 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Governança De Tecnologia Da Informação/Untitled.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,6 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Governança De Tecnologia Da Informação/Untitled.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -118,7 +124,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "Governança De Tecnologia Da Informação/Untitled.md"
+              }
             }
           }
         ]
@@ -138,8 +146,9 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "4363c961dbc69688",
+  "active": "e5473ccf65d94775",
   "lastOpenFiles": [
+    "Governança De Tecnologia Da Informação/Untitled.md",
     "Governança De Tecnologia Da Informação",
     "Redes De Computadores",
     "Sistemas Operacionais",
