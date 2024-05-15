@@ -68,7 +68,7 @@ fn main() {
     let _ = watcher.watch(Path::new(".."), RecursiveMode::Recursive);
     
     loop {
-        match rx.recv_timeout(Duration::from_secs(1)) {
+        match rx.recv_timeout(Duration::from_secs(30)) {
             Ok(event) => {
                 let event = event.unwrap();
                 let path = event.paths[0].to_str().unwrap();
