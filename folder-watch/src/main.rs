@@ -1,5 +1,5 @@
 pub mod git;
-use notify::{event::CreateKind, RecursiveMode, Watcher};
+use notify::{event::{CreateKind, ModifyKind, RemoveKind, RenameMode}, Event, RecursiveMode, Watcher};
 use std::{path::Path, sync::mpsc::channel, time::Duration};
 use chrono::prelude::*;
 
@@ -19,19 +19,47 @@ fn create_commit_date () -> String {
     return format!("[{}/{}/{} {}:{}] - ", month, day, year, hour, minutes);
 }
 
-
-fn commit_creation_event (event_kind: CreateKind, file_source: &str) {
+fn commit_modify_event (event_kind: ModifyKind, event: Event) {
     let commit_prefix = create_commit_date();
-    let commit_message: String;
-    match event_kind {
-        CreateKind::Any => todo!(),
-        CreateKind::File => commit_message = format!("create new file called {}", get_file_or_folder_name(file_source)),
-        CreateKind::Folder => commit_message = format!("create new file called {}", get_file_or_folder_name(file_source)),
-        CreateKind::Other => todo!(),
+    let old_path = event.paths[0].to_str().unwrap();
+    let new_path = event.paths[1].to_str().unwrap();
+
+    if let ModifyKind::Data(_) = event_kind {
+        let commit_message = format!("edit {}", get_file_or_folder_name(new_path));
+        git::commit_and_push(
+            format!("{}{}", commit_prefix, commit_message).as_str(),
+            new_path
+        );
+    }
+    if ModifyKind::Name(RenameMode::Both) == event_kind {
+        let commit_message = format!("rename {} to {}", get_file_or_folder_name(old_path), get_file_or_folder_name(new_path));
+        git::commit_and_push(
+            format!("{}{}", commit_prefix, commit_message).as_str(),
+            new_path
+        );
     }
 
-    git::commit_and_push(format!("{}{}", commit_prefix, commit_message).as_str(), file_source);
-    println!("Git command runned!!!");
+}
+
+fn commit_create_event (event_kind: CreateKind, file_source: &str) {
+    let commit_prefix = create_commit_date();
+    if event_kind == CreateKind::File {
+        let commit_message = format!("create new file called {}", get_file_or_folder_name(file_source));
+        git::commit_and_push(format!("{}{}", commit_prefix, commit_message).as_str(), file_source);
+    }
+    if event_kind == CreateKind::Folder {
+        let commit_message = format!("create new folder called {}", get_file_or_folder_name(file_source));
+        git::commit_and_push(format!("{}{}", commit_prefix, commit_message).as_str(), file_source);
+    }
+}
+
+fn commit_remove_event (event_kind: RemoveKind, file_source: &str) {
+    let commit_prefix = create_commit_date();
+    let file_or_folder_name = get_file_or_folder_name(file_source);
+    if event_kind == RemoveKind::File {
+        let commit_message = format!("delete {} file", file_or_folder_name);
+        git::commit_and_push(format!("{}{}", commit_prefix, commit_message).as_str(), file_source);
+    }
 }
 
 fn main() {
@@ -47,18 +75,20 @@ fn main() {
         match rx.recv_timeout(Duration::from_secs(1)) {
             Ok(event) => {
                 let event = event.unwrap();
-                println!("Event attributes: {:?}", event.info());
+                let path = event.paths[0].to_str().unwrap();
+                // ignore files/folder change on .git folder
+                if path.contains("/.git") {continue;}
                 match event.kind {
                     notify::EventKind::Create(ev) => {
-                        commit_creation_event(ev, event.paths[0].to_str().unwrap());
+                        commit_create_event(ev, path);
                     },
-                    notify::EventKind::Any => {
-                        println!("Event attributes: {:?}", event.info())
-                    }
-                    notify::EventKind::Access(_) => {},
-                    notify::EventKind::Modify(ev) => println!("MODIFY EVENT: {:?}", ev),
-                    notify::EventKind::Remove(ev) => println!("REMOVE EVENT: {:?}", ev),
+                    notify::EventKind::Modify(ev) => {
+                        commit_modify_event(ev, event)
+                    },
+                    notify::EventKind::Remove(ev) => commit_remove_event(ev, path),
                     notify::EventKind::Other => todo!(),
+                    notify::EventKind::Any => todo!(),
+                    notify::EventKind::Access(_) => todo!(),
                 }
             }
             Err(_) => {} 
