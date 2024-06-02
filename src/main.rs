@@ -6,6 +6,16 @@ use notify::{
 };
 use std::{path::Path, sync::mpsc::channel, time::Duration};
 
+struct CommitMessages {
+    last_message: String
+}
+
+impl CommitMessages {
+    fn set_last_message(&mut self, commit_message: String) {
+        self.last_message = commit_message;
+    }
+}
+
 fn get_file_or_folder_name(path: &str) -> &str {
     path.split('/')
         .filter(|s| !s.is_empty())
@@ -78,7 +88,7 @@ fn commit_remove_event(event_kind: RemoveKind, file_source: &str) {
 
 fn main() {
     let (tx, rx) = channel();
-
+    let mut commit_messages = CommitMessages::new();
     let mut watcher = notify::recommended_watcher(move |res| {
         let _ = tx.send(res);
     })
