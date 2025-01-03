@@ -17,12 +17,12 @@ fn execute_command(command: &mut Command, description: &str) -> Output {
 
 pub fn commit_and_push(message: &str, path: &str) {
     execute_command(
-        Command::new("git").arg("add").arg(path),
+        Command::new("git").args(["add", path]),
         format!("git add {}", path).as_str(),
     );
 
     execute_command(
-        Command::new("git").arg("commit").arg("-m").arg(message),
+        Command::new("git").args(["commit", "-m", message]),
         format!("git -m \"{}\"", message).as_str(),
     );
 
